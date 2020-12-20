@@ -1,4 +1,4 @@
-require "overscribe/version"
+require 'overscribe/version'
 
 module Overscribe
   class Error < StandardError; end
