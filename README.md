@@ -1,39 +1,35 @@
 # Overscribe
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/overscribe`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
-
-## Installation
-
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'overscribe'
-```
-
-And then execute:
-
-    $ bundle install
-
-Or install it yourself as:
-
-    $ gem install overscribe
-
 ## Usage
 
-TODO: Write usage instructions here
+```shell
+overscribe help
+```
 
-## Development
+## Setup
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+Create a configuration file in `~/.overscribe.yaml` like:
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```
+directories:
+  audio: '~/Music'
+  video: '~/Videos'
+
+collections:
+  "Worakls/Sur le front des animaux menacés":
+    url: https://www.youtube.com/playlist?list=OLAK5uy_mrpr_HvIdIey7xvzt82EPKRHsuorKOMM4
+    mediatype: audio
+    filename_pattern: '%(playlist_index)s. %(title)s.%(ext)s'
+
+  "Thinkerview/Sciences":
+    url: https://www.youtube.com/playlist?list=PLnRz6CkWwLlKnn_ggkzcvaBzmZjOoefJP
+    mediatype: video
+    filename_pattern: '%(upload_date)s - %(title)s.%(ext)s'
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/overscribe.
-
+Pull requests are welcome on GitHub at https://github.com/neomilium/overscribe.
 
 ## License
 
