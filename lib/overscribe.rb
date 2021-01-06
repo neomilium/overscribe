@@ -9,23 +9,10 @@ module Overscribe
   class Error < StandardError; end
 
   def self.fetch(cli_options)
-    collections = config['collections']
-
-    collections.select! do |collection, options|
-      if cli_options['pattern'].nil?
-        # Remove manually synced
-        !options['manual']
-      else
-        # Select by pattern
-        collection.start_with? cli_options['pattern']
-      end
-    end
+    collections = collections(pattern: cli_options['pattern'])
 
     collections.each do |collection, options|
-      directory = config['directories'][options['mediatype']]
-      directory = File.expand_path directory
-      directory = File.join directory, collection
-      puts directory
+      directory = File.join target_directory(mediatype: options['mediatype']), collection
       FileUtils.mkdir_p directory
       FileUtils.chdir(directory) do
         YoutubeDL.download url: options['url'], mediatype: options['mediatype'].to_sym,
@@ -38,29 +25,43 @@ module Overscribe
     filename = File.expand_path '~/.overscribe.yaml'
     YAML.safe_load(File.read(filename))
   end
+
+  def self.collections(pattern:)
+    collections = config['collections']
+
+    collections.select! do |collection, options|
+      if pattern.nil?
+        # Remove manually synced
+        !options['manual']
+      else
+        # Select by pattern
+        collection.start_with? pattern
+      end
+    end
+  end
+
+  def self.target_directory(mediatype:)
+    File.expand_path config['directories'][mediatype]
+  end
 end
 
 module Overscribe
   module YoutubeDL
-    def self.download(url:, mediatype:, options:)
-      args = case mediatype
-             when :audio
-               %w[--format bestaudio --extract-audio]
-             when :video
-               %w[--format bestvideo+bestaudio]
-             else
-               raise NotImplementedError
-             end
-      args += %W[--max-downloads #{options['limit']}] unless (options['limit']).zero?
-      args += %W[--output #{options['filename_pattern']}] unless options['filename_pattern'].nil?
+    MEDIATYPE_ARGS = {
+      audio: %w[--format bestaudio --extract-audio],
+      video: %w[--format bestvideo+bestaudio],
+    }.freeze
 
+    def self.download(url:, mediatype:, options:)
       command = %w[youtube-dl --add-metadata --yes-playlist]
-      command += %w[--write-info-json]
-      command += %w[--simulate] if options['noop'] == true
+      command += %w[--ignore-errors --no-call-home]
       command += %w[--download-archive .youtube-dl.archive]
-      command += %w[--ignore-errors]
-      command += %w[--no-call-home]
-      command += args
+
+      command += %w[--simulate] if options['noop'] == true
+      command += %W[--max-downloads #{options['limit']}] unless (options['limit']).zero?
+      command += %W[--output #{options['filename_pattern']}] unless options['filename_pattern'].nil?
+      command += MEDIATYPE_ARGS[mediatype]
+
       command += [url]
       run command
     end
