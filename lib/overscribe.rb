@@ -9,7 +9,7 @@ require 'byebug'
 module Overscribe
   class Error < StandardError; end
 
-  def self.fetch(cli_options)
+  def self.fetch_collections(cli_options)
     collections = collections(pattern: cli_options['pattern'])
 
     collections.each do |collection, options|

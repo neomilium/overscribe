@@ -2,6 +2,20 @@
 
 ## Usage
 
+### Fetch all collections
+
+```shell
+overscribe collections
+```
+
+### Fetch specific collection(s)
+
+```shell
+overscribe collections "The collections name starts with this"
+```
+
+### More
+
 ```shell
 overscribe help
 ```
