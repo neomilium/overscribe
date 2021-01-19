@@ -1,6 +1,9 @@
 require 'overscribe/version'
 require 'overscribe/youtube_dl'
 
+require 'active_support'
+require 'active_support/core_ext/hash/deep_merge' # Hash#deep_merge
+
 require 'yaml'
 require 'English'
 
@@ -13,11 +16,13 @@ module Overscribe
     collections = collections(pattern: cli_options['pattern'])
 
     collections.each do |collection, options|
-      directory = File.join target_directory(mediatype: options['mediatype']), collection
+      puts ">>> #{collection}"
+      options = profile(name: options['profile']).deep_merge(options).deep_merge(cli_options)
+
+      directory = File.expand_path collection, options['directory']
       FileUtils.mkdir_p directory
       FileUtils.chdir(directory) do
-        YoutubeDL.download url: options['url'], mediatype: options['mediatype'].to_sym,
-                           options: cli_options.merge(options)
+        YoutubeDL.download url: options['url'], args: options['youtubedl_args'], options: options
       end
     end
   end
@@ -41,7 +46,19 @@ module Overscribe
     end
   end
 
-  def self.target_directory(mediatype:)
-    File.expand_path config['directories'][mediatype]
+  DEFAULT_PROFILES = {
+    'audio' => {
+      'youtubedl_args' => %w[--format bestaudio --extract-audio],
+    },
+    'video' => {
+      'youtubedl_args' => %w[--format bestvideo+bestaudio],
+    },
+  }.freeze
+  def self.profiles
+    DEFAULT_PROFILES.deep_merge config['profiles']
+  end
+
+  def self.profile(name:)
+    profiles[name]
   end
 end

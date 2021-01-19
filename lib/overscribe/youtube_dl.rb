@@ -1,19 +1,15 @@
 module Overscribe
   module YoutubeDL
-    MEDIATYPE_ARGS = {
-      audio: %w[--format bestaudio --extract-audio],
-      video: %w[--format bestvideo+bestaudio],
-    }.freeze
-
-    def self.download(url:, mediatype:, options:)
-      command = %w[youtube-dl --add-metadata --yes-playlist]
+    def self.download(url:, args:, options:)
+      command = %w[youtube-dl --add-metadata]
+      command += %w[--yes-playlist]
       command += %w[--ignore-errors --no-call-home]
       command += %w[--download-archive .youtube-dl.archive]
 
       command += %w[--get-filename] if options['simulate'] == true
       command += %W[--max-downloads #{options['limit']}] unless options['limit'].nil? || options['limit'].zero?
       command += %W[--output #{options['filename_pattern']}] unless options['filename_pattern'].nil?
-      command += MEDIATYPE_ARGS[mediatype]
+      command += args
 
       command += [url]
       run command
