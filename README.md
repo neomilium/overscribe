@@ -14,6 +14,16 @@ overscribe collections
 overscribe collections "The collections name starts with this"
 ```
 
+### Fetch medias behind one URL
+
+```shell
+overscribe oneshot \
+  --profile "video hd" \
+  https://example.com/video
+```
+
+`overscribe` will fetch medias pointed by _URL_ using options specified in the `profile`, including the target directory, defined in config file.
+
 ### More
 
 ```shell

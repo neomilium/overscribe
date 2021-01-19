@@ -27,6 +27,17 @@ module Overscribe
     end
   end
 
+  def self.fetch_oneshot(url, cli_options)
+    profile = profile(name: cli_options['profile'])
+    options = profile.deep_merge cli_options
+
+    directory = File.expand_path options['directory']
+    FileUtils.mkdir_p directory
+    FileUtils.chdir(directory) do
+      YoutubeDL.download url: url, args: profile['youtubedl_args'], options: options
+    end
+  end
+
   def self.config
     filename = File.expand_path '~/.overscribe.yaml'
     YAML.safe_load(File.read(filename))

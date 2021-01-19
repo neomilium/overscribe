@@ -18,6 +18,17 @@ module Overscribe
       Overscribe.fetch_collections(options.merge(pattern: pattern))
     end
 
+    desc 'oneshot URL', 'Fetch medias from URL'
+    option :profile,
+           desc: <<~DESC,
+             Use the specified profile to download medias
+             #{' ' * 37}#   Profiles: #{Overscribe.profiles.map { |key, _| key }}
+           DESC
+           aliases: '-p',
+           required: true
+    def oneshot(url)
+      Overscribe.fetch_oneshot(url, options)
+    end
 
     def self.exit_on_failure?
       true
