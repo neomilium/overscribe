@@ -10,7 +10,7 @@ module Overscribe
       command += %w[--ignore-errors --no-call-home]
       command += %w[--download-archive .youtube-dl.archive]
 
-      command += %w[--simulate] if options['noop'] == true
+      command += %w[--get-filename] if options['simulate'] == true
       command += %W[--max-downloads #{options['limit']}] unless options['limit'].nil? || options['limit'].zero?
       command += %W[--output #{options['filename_pattern']}] unless options['filename_pattern'].nil?
       command += MEDIATYPE_ARGS[mediatype]

@@ -4,7 +4,12 @@ require 'thor'
 
 module Overscribe
   class CLI < Thor
-    desc 'collections [PATTERN]', 'Fetch collections that match pattern'
+    class_option :simulate,
+                 desc: 'Do not download',
+                 aliases: '-s',
+                 type: :boolean,
+                 default: false
+    desc 'collections [PATTERN]', 'Fetch collections that start with PATTERN'
     option :limit,
            desc: 'Limit downloads per collection',
            type: :numeric,
