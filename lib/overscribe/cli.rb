@@ -26,6 +26,9 @@ module Overscribe
            DESC
            aliases: '-p',
            required: true
+    option :collection,
+           desc: 'Generate a named collection',
+           type: :string
     def oneshot(url)
       Overscribe.fetch_oneshot(url, options)
     end

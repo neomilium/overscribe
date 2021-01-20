@@ -31,11 +31,27 @@ module Overscribe
     profile = profile(name: cli_options['profile'])
     options = profile.deep_merge cli_options
 
-    directory = File.expand_path options['directory']
+    directory = File.expand_path cli_options['collection'].to_s, options['directory']
     FileUtils.mkdir_p directory
     FileUtils.chdir(directory) do
       YoutubeDL.download url: url, args: profile['youtubedl_args'], options: options
+      generate_collection_config_file(url: url, options: options) unless options['collection'].nil?
     end
+  end
+
+  def self.generate_collection_config_file(url:, options:) # rubocop:disable Metrics/MethodLength
+    config = {
+      'profiles' => {
+        options['profile'] => profile(name: options['profile']),
+      },
+      'collections' => {
+        options['collection'] => {
+          'url' => url,
+          'profile' => options['profile'],
+        },
+      },
+    }
+    File.write 'overscribe.yaml', config.to_yaml
   end
 
   def self.config

@@ -16,6 +16,8 @@ overscribe collections "The collections name starts with this"
 
 ### Fetch medias behind one URL
 
+#### Basic
+
 ```shell
 overscribe oneshot \
   --profile "video hd" \
@@ -23,6 +25,21 @@ overscribe oneshot \
 ```
 
 `overscribe` will fetch medias pointed by _URL_ using options specified in the `profile`, including the target directory, defined in config file.
+
+#### With collection
+
+If you want to fetch one URL as a collection:
+
+```shell
+overscribe oneshot \
+  --profile audio:album \
+  --collection "Worakls/Sur le front des animaux menacés" \
+  https://www.youtube.com/playlist?list=OLAK5uy_mrpr_HvIdIey7xvzt82EPKRHsuorKOMM4
+```
+
+This `--collection` option will:
+ * append the collection name to the target directory
+ * generate a `overscribe.yaml` config file into target directory
 
 ### More
 
@@ -52,10 +69,6 @@ profiles:
     filename_pattern: '%(upload_date)s - %(title)s.%(ext)s'
 
 collections:
-  "Worakls/Sur le front des animaux menacés":
-    url: https://www.youtube.com/playlist?list=OLAK5uy_mrpr_HvIdIey7xvzt82EPKRHsuorKOMM4
-    profile: audio:album
-
   "Thinkerview/Sciences":
     url: https://www.youtube.com/playlist?list=PLnRz6CkWwLlKnn_ggkzcvaBzmZjOoefJP
     profile: video:interview
