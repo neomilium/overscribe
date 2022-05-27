@@ -27,6 +27,10 @@ module Overscribe
     end
   end
 
+  def self.list_collections(cli_options)
+    collections(pattern: cli_options['pattern'])
+  end
+
   def self.fetch_oneshot(url, cli_options)
     profile = profile(name: cli_options['profile'])
     options = profile.deep_merge cli_options

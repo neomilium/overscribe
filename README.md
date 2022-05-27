@@ -14,6 +14,12 @@ overscribe collections fetch
 overscribe collections fetch "The collections name starts with this"
 ```
 
+### List configured collections
+
+```shell
+overscribe collections list
+```
+
 ### Fetch medias behind one URL
 
 #### Basic

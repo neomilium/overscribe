@@ -18,6 +18,11 @@ module Overscribe
       def fetch(pattern = nil)
         Overscribe.fetch_collections(options.merge(pattern: pattern))
       end
+
+      desc 'list [PATTERN]', 'Fetch collections that start with PATTERN'
+      def list(pattern = nil)
+        puts Overscribe.list_collections(options.merge(pattern: pattern)).keys.join "\n"
+      end
     end
 
     desc 'oneshot URL', 'Fetch medias from URL'
