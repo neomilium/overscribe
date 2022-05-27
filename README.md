@@ -5,13 +5,13 @@
 ### Fetch all collections
 
 ```shell
-overscribe collections
+overscribe collections fetch
 ```
 
 ### Fetch specific collection(s)
 
 ```shell
-overscribe collections "The collections name starts with this"
+overscribe collections fetch "The collections name starts with this"
 ```
 
 ### Fetch medias behind one URL
@@ -76,7 +76,7 @@ collections:
 
 ### YoutubeDL
 
-_Overscrive_ relies on [youtube-dl](https://youtube-dl.org/).
+_Overscribe_ relies on [youtube-dl](https://youtube-dl.org/).
 
 In configuration file, `youtubedl_args` and `filename_pattern` options should be set according to [youtube-dl documentation](https://github.com/ytdl-org/youtube-dl/blob/master/README.md)
 

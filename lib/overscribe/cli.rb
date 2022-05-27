@@ -4,18 +4,20 @@ require 'thor'
 
 module Overscribe
   class CLI < Thor
-    class_option :simulate,
-                 desc: 'Do not download',
-                 aliases: '-s',
-                 type: :boolean,
-                 default: false
-    desc 'collections [PATTERN]', 'Fetch collections that start with PATTERN'
-    option :limit,
-           desc: 'Limit downloads per collection',
-           type: :numeric,
-           default: 1
-    def collections(pattern = nil)
-      Overscribe.fetch_collections(options.merge(pattern: pattern))
+    class Collections < Thor
+      class_option :simulate,
+        desc: 'Do not download',
+        aliases: '-s',
+        type: :boolean,
+        default: false
+      desc 'fetch [PATTERN]', 'Fetch collections that start with PATTERN'
+      option :limit,
+        desc: 'Limit downloads per collection',
+        type: :numeric,
+        default: 1
+      def fetch(pattern = nil)
+        Overscribe.fetch_collections(options.merge(pattern: pattern))
+      end
     end
 
     desc 'oneshot URL', 'Fetch medias from URL'
@@ -32,6 +34,9 @@ module Overscribe
     def oneshot(url)
       Overscribe.fetch_oneshot(url, options)
     end
+
+    desc 'collections', 'Play with collections'
+    subcommand 'collections', CLI::Collections
 
     def self.exit_on_failure?
       true
