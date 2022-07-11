@@ -36,6 +36,10 @@ module Overscribe
     option :collection,
            desc: 'Generate a named collection',
            type: :string
+    option :extra_args,
+           desc: 'Add extra arguments to youtube-dl',
+           aliases: '-x',
+           type: :string
     def oneshot(url)
       Overscribe.fetch_oneshot(url, options)
     end
