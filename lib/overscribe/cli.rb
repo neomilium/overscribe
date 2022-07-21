@@ -6,15 +6,15 @@ module Overscribe
   class CLI < Thor
     class Collections < Thor
       class_option :simulate,
-        desc: 'Do not download',
-        aliases: '-s',
-        type: :boolean,
-        default: false
+                   desc: 'Do not download',
+                   aliases: '-s',
+                   type: :boolean,
+                   default: false
       desc 'fetch [PATTERN]', 'Fetch collections that start with PATTERN'
       option :limit,
-        desc: 'Limit downloads per collection',
-        type: :numeric,
-        default: 1
+             desc: 'Limit downloads per collection',
+             type: :numeric,
+             default: 1
       def fetch(pattern = nil)
         Overscribe.fetch_collections(options.merge(pattern: pattern))
       end
