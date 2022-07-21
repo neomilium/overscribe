@@ -59,7 +59,7 @@ module Overscribe
   end
 
   def self.config
-    filename = File.expand_path '~/.overscribe.yaml'
+    filename = File.expand_path '~/.config/overscribe.yaml'
     YAML.safe_load(File.read(filename))
   end
 

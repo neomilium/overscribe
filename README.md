@@ -55,9 +55,10 @@ overscribe help
 
 ## Setup
 
-Create a configuration file in `~/.overscribe.yaml` like:
+Create a configuration file in `~/.config/overscribe.yaml` like:
 
 ```
+---
 profiles:
   audio:
     directory: '~/Music'
